@@ -1,0 +1,59 @@
+img.background {
+	margin-left: 850px;
+	margin-top: 20px;
+}
+
+img.guns {
+	display: -webkit-box;
+	margin-top: -151px;
+	margin-left: 85%;
+}
+
+img.wanteds {
+	margin-left: 90%;
+	margin-top: -13.5%;
+}
+
+progress.health_style {
+	margin-top: -11%;
+	padding: 6.5px 0px 6.5px 19px;
+}
+
+progress.armour_style, progress.health_style {
+	border: none;
+	display: flex;
+	margin-left: 912px;
+}
+
+progress.armour_style {
+	margin-top: 0.6%;
+	padding: 6.7px 0px 6.2px 38px;
+}
+
+progress.health_style::-webkit-progress-value {
+	background: #ff4c4a;
+}
+
+progress.health_style::-webkit-progress-bar, progress.armour_style::-webkit-progress-bar {
+	background: #181918;
+}
+
+progress.armour_style::-webkit-progress-value {
+	background: #ffffff;
+}
+
+p.money_text {
+	font-family: 'Roboto Medium', sans-serif;
+	font-size: 17pt;
+	color: #7bd662;
+	margin-right: 20%;
+	margin-top: 33px;
+}
+
+p.ammo_text {
+	font-family: 'Roboto Light', sans-serif;
+	color: white;
+	width: 50px;
+	margin-left: 87.1%;
+	margin-top: -42px;
+}
