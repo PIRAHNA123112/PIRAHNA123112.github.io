@@ -1,0 +1,84 @@
+.perfomance-hud
+{
+    float: right;
+    position: relative;
+}
+.bars
+{
+	top: 149.3px;
+    left: 13px;
+    position: absolute;
+
+}
+progress.health{
+	border-radius: 8px;
+    width: 100px;
+    height: 10px;
+	top:-49px;
+    position: relative;
+  }
+
+  progress.health::-webkit-progress-bar {
+      background-color: rgb(82, 82, 82);
+      border-radius: 8px;
+  }
+  progress.health::-webkit-progress-value {
+      background-color: #FF1577;
+      background-image: linear-gradient(#FF1577, #FF1577);
+      border-radius: 8px;
+  }
+  progress.health::-moz-progress-bar {
+    background-color: #FF1577;
+    background-image: linear-gradient(#FF1577, #FF1577);
+    border-radius: 8px;
+  }
+
+  progress.arm{
+	border-radius: 8px;
+    width: 100px;    
+    height: 10px;
+    top:-89px;
+    left: -104px;
+    position: relative;
+
+  }
+
+  progress.arm::-webkit-progress-bar {
+      background-color: rgb(82, 82, 82);
+      border-radius: 8px;
+  }
+  progress.arm::-webkit-progress-value {
+      background-color: #0068E1;
+      background-image: linear-gradient(#0068E1, #0068E1);
+      border-radius: 8px;
+  }
+  progress.arm::-moz-progress-bar {
+    background-color: #0068E1;
+    background-image: linear-gradient(#0068E1, #0068E1);
+    border-radius: 8px;
+  }
+.moneys
+{
+    color: white;
+    font-family: 'MuseoSansCyrl-900';
+    position: absolute;
+	text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+    font-size: 17px;
+    left: 19px;
+    top: -12px;
+}
+.weapon
+{
+    left: 42px;
+    top: 115px;
+    color: white;
+    font-family: TT Norms;
+    position: absolute;
+    font-size: 15px;
+}
+.weapon-background
+{
+    position: absolute;
+	left: 140px;
+    top: 55px;
+}
