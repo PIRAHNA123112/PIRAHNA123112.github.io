@@ -1,0 +1,213 @@
+.cart {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 320px;
+
+  max-height: 0;
+  opacity: 0;
+  padding: 0 15px;
+  overflow: hidden;
+
+  background: white;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 15px rgba(212, 68, 38, 0.4);
+
+  transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
+  z-index: 1099;
+}
+
+.cart.open {
+  max-height: 500px; /* или чуть больше, чем контент */
+  opacity: 1;
+  padding: 15px;
+}
+
+.cart h2 {
+  color: #d44126;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.cart-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 15px 0;
+}
+
+.cart-items li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.95em;
+}
+
+.cart-items li button {
+  background: #d44126;
+  border: none;
+  color: #fff;
+  border-radius: 3px;
+  padding: 2px 7px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+.cart-total {
+  font-weight: bold;
+  text-align: right;
+  margin-bottom: 10px;
+  color: #d44126;
+}
+
+.clear-cart-btn {
+  width: 100%;
+  background: #d44126;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.clear-cart-btn:hover {
+  background: #a9321b;
+}
+body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #fff8f0;
+      color: #333;
+    }
+    header {
+      background: #d44126;
+      color: white;
+      padding: 20px 10px;
+      text-align: center;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 15px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #d44126;
+    }
+    .burger-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .burger-card {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 260px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px;
+      transition: transform 0.3s ease;
+    }
+    .burger-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(212,68,38,0.4);
+    }
+    .burger-card img {
+      width: 220px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .burger-name {
+      font-size: 1.3em;
+      margin: 10px 0 5px 0;
+      color: #d44126;
+    }
+    .burger-desc {
+      font-size: 0.9em;
+      color: #666;
+      text-align: center;
+      flex-grow: 1;
+    }
+    .burger-price {
+      font-weight: bold;
+      margin: 10px 0;
+      color: #d44126;
+      font-size: 1.2em;
+    }
+    .order-btn {
+      background: #d44126;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    .order-btn:hover {
+      background: #a9321b;
+    }
+    footer {
+      text-align: center;
+      padding: 15px 10px;
+      background: #f5f5f5;
+      color: #888;
+      margin-top: 40px;
+    }
+      /* Вертикальное меню слева */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 220px;
+    height: 100vh;
+    background-color: #d94e1c; /* тёплый красно-оранжевый цвет, ассоциирующийся с бургером */
+    box-shadow: 2px 0 8px rgba(0,0,0,0.15);
+    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Заголовок меню */
+  .sidebar h2 {
+    color: #fff;
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-family: 'Arial Black', Arial, sans-serif;
+    letter-spacing: 2px;
+  }
+
+  /* Ссылки меню */
+  .sidebar a {
+    color: #fffafa;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-size: 18px;
+    border-left: 4px solid transparent;
+    transition: background-color 0.3s, border-left-color 0.3s;
+  }
+
+  /* Ховер эффект и активная ссылка */
+  .sidebar a:hover,
+  .sidebar a.active {
+    background-color: #bf3a03;
+    border-left-color: #fff8dc;
+    cursor: pointer;
+  }
+
+  /* Основное содержимое сайта, с отступом слева под меню */
+  .content {
+    margin-left: 220px;
+    padding: 30px;
+  }
+  .burger-name {
+  text-align: center;
+}
