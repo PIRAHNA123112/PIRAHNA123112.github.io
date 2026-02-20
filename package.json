@@ -1,7 +1,7 @@
 
 {
   "name": "my-server",
-  "version": "1.0.0",
+  "version": "24.13.1",
   "description": "Простой сервер на Node.js с Express",
   "main": "server.js",
   "scripts": {
@@ -14,3 +14,4 @@
     "on-finished": "^2.4.1"
   }
 }
+
