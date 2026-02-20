@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Видео загрузка и просмотр</title>
+  <style>
+    body {
+      max-width: 600px;
+      margin: 40px auto;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      padding: 0 15px;
+    }
+    h2 {
+      border-bottom: 2px solid #333;
+      padding-bottom: 5px;
+    }
+    form {
+      margin-bottom: 30px;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type=text],
+    input[type=password],
+    input[type=file] {
+      width: 100%;
+      padding: 7px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .message {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Сервис загрузки и просмотра видео</h1>
+
+  <div class="section" id="register-section">
+    <h2>Регистрация</h2>
+    <form id="register-form">
+      <label for="reg-username">Имя пользователя</label>
+      <input type="text" id="reg-username" name="username" required />
+
+      <label for="reg-password">Пароль</label>
+      <input type="password" id="reg-password" name="password" required />
+
+      <label for="reg-botcode">Код проверки</label>
+      <input type="text" id="reg-botcode" name="botcode" required placeholder="Введите код 2804" />
+
+      <button type="submit">Зарегистрироваться</button>
+      <div id="register-message" class="message" style="display:none;"></div>
+    </form>
+  </div>
+
+  <div class="section" id="login-section">
+    <h2>Вход</h2>
+    <form id="login-form">
+      <label for="login-username">Имя пользователя</label>
+      <input type="text" id="login-username" name="username" required />
+
+      <label for="login-password">Пароль</label>
+      <input type="password" id="login-password" name="password" required />
+
+      <button type="submit">Войти</button>
+      <div id="login-message" class="message" style="display:none;"></div>
+    </form>
+  </div>
+
+  <div class="section" id="profile-section" style="display:none;">
+    <h2>Профиль</h2>
+    <p id="profile-info"></p>
+    <button id="logout-btn">Выйти</button>
+    <div id="logout-message" class="message" style="display:none;"></div>
+  </div>
+
+  <div class="section" id="upload-section" style="display:none;">
+    <h2>Загрузка видео</h2>
+    <form id="upload-form" enctype="multipart/form-data">
+      <label for="file-input">Выберите видео файл</label>
+      <input type="file" id="file-input" name="file" accept="video/*" required />
+      <button type="submit">Загрузить</button>
+      <div id="upload-message" class="message" style="display:none;"></div>
+    </form>
+  </div>
+
+  <div class="section" id="view-file-section">
+    <h2>Просмотр видео по паролю</h2>
+    <form id="view-file-form">
+      <label for="file-id">ID файла (полученный после загрузки)</label>
+      <input type="text" id="file-id" name="fileId" required />
+
+      <label for="view-password">Пароль для просмотра</label>
+      <input type="password" id="view-password" name="password" required />
+
+      <button type="submit">Скачать видео</button>
+      <div id="view-file-message" class="message" style="display:none;"></div>
+    </form>
+  </div>
+
+  <script>
+    const registerForm = document.getElementById('register-form');
+    const loginForm = document.getElementById('login-form');
+    const uploadForm = document.getElementById('upload-form');
+    const viewFileForm = document.getElementById('view-file-form');
+    const profileSection = document.getElementById('profile-section');
+    const profileInfo = document.getElementById('profile-info');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    function showMessage(container, message, isError = false) {
+      container.style.display = 'block';
+      container.textContent = message;
+      container.className = 'message ' + (isError ? 'error' : 'success');
+    }
+    function hideMessage(container) {
+      container.style.display = 'none';
+      container.textContent = '';
+    }
+
+    async function checkAuth() {
+      try {
+        const res = await fetch('/profile');
+        if (res.ok) {
+          const data = await res.json();
+          profileInfo.textContent = data.message;
+          profileSection.style.display = 'block';
+          document.getElementById('register-section').style.display = 'none';
+          document.getElementById('login-section').style.display = 'none';
+          document.getElementById('upload-section').style.display = 'block';
+        } else {
+          profileSection.style.display = 'none';
+          document.getElementById('register-section').style.display = 'block';
+          document.getElementById('login-section').style.display = 'block';
+          document.getElementById('upload-section').style.display = 'none';
+        }
+      } catch {
+        profileSection.style.display = 'none';
+      }
+    }
+
+    checkAuth();
+
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('register-message');
+      hideMessage(msg);
+
+      const formData = new FormData(registerForm);
+      const body = {
+        username: formData.get('username'),
+        password: formData.get('password'),
+        botcode: formData.get('botcode')
+      };
+
+      try {
+        const response = await fetch('/register', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(body)
+        });
+const data = await response.json();
+        if (response.ok) {
+          showMessage(msg, data.message, false);
+          registerForm.reset();
+        } else {
+          showMessage(msg, data.message || 'Ошибка', true);
+        }
+      } catch {
+        showMessage(msg, 'Ошибка сети', true);
+      }
+    });
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('login-message');
+      hideMessage(msg);
+
+      const formData = new FormData(loginForm);
+      const body = {
+        username: formData.get('username'),
+        password: formData.get('password')
+      };
+
+      try {
+        const response = await fetch('/login', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(body)
+        });
+        const data = await response.json();
+        if (response.ok) {
+          showMessage(msg, data.message, false);
+          loginForm.reset();
+          await checkAuth();
+        } else {
+          showMessage(msg, data.message || 'Ошибка', true);
+        }
+      } catch {
+        showMessage(msg, 'Ошибка сети', true);
+      }
+    });
+
+    logoutBtn.addEventListener('click', async () => {
+      const logoutMsg = document.getElementById('logout-message');
+      hideMessage(logoutMsg);
+      try {
+        const res = await fetch('/logout', { method: 'POST' });
+        const data = await res.json();
+        if (res.ok) {
+          showMessage(logoutMsg, data.message, false);
+          profileSection.style.display = 'none';
+          document.getElementById('register-section').style.display = 'block';
+          document.getElementById('login-section').style.display = 'block';
+          document.getElementById('upload-section').style.display = 'none';
+        } else {
+          showMessage(logoutMsg, data.message || 'Ошибка', true);
+        }
+      } catch {
+        showMessage(logoutMsg, 'Ошибка сети', true);
+      }
+    });
+
+    uploadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('upload-message');
+      hideMessage(msg);
+
+      const fileInput = document.getElementById('file-input');
+      if (!fileInput.files.length) {
+        showMessage(msg, 'Пожалуйста, выберите файл', true);
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+
+      try {
+        const res = await fetch('/upload', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (res.ok) {
+          showMessage(msg, `Видео загружено. ID файла: ${data.fileId}`, false);
+          uploadForm.reset();
+        } else {
+          showMessage(msg, data.message || 'Ошибка при загрузке', true);
+        }
+      } catch {
+        showMessage(msg, 'Ошибка сети при загрузке', true);
+      }
+    });
+
+    viewFileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('view-file-message');
+      hideMessage(msg);
+
+      const fileId = document.getElementById('file-id').value.trim();
+      const password = document.getElementById('view-password').value;
+
+      if (!fileId || !password) {
+        showMessage(msg, 'Заполните все поля', true);
+        return;
+      }
+
+      try {
+        // Запрашиваем файл, чтобы скачать (fetch + blob + ссылка)
+        const res = await fetch(`/files/${encodeURIComponent(fileId)}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+        if (!res.ok) {
+          const data = await res.json();
+showMessage(msg, data.message || 'Ошибка при получении файла', true);
+          return;
+        }
+        const blob = await res.blob();
+        // Получаем имя файла из заголовков Content-Disposition
+        const disposition = res.headers.get('Content-Disposition') || '';
+        let filename = 'video_file';
+        const match = disposition.match(/filename="?([^"]+)"?/);
+        if (match && match[1]) {
+          filename = match[1];
+        }
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        showMessage(msg, 'Загрузка началась', false);
+        viewFileForm.reset();
+      } catch {
+        showMessage(msg, 'Ошибка сети при загрузке файла', true);
+      }
+    });
+  </script>
+</body>
+</html>
+
