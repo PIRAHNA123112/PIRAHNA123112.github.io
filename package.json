@@ -1,3 +1,24 @@
+{
+  "name": "my-node-app",
+  "version": "1.0.0",
+  "description": "My Node.js application",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo "Error: no test specified" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Ваше Имя",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
 
 {
   "name": "my-server",
@@ -7,3 +28,4 @@
     "start": "node server.js"
   }
 }
+
