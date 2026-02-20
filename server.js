@@ -7,7 +7,7 @@ const fs = require('fs');
 const multer = require('multer');
 
 const app = express();
-const PORT = 3000; // Изменил порт с 443 на 3000, чтобы не было проблем с правами и SSL
+const PORT = process.env.PORT || 3000; // Изменил порт с 443 на 3000, чтобы не было проблем с правами и SSL
 
 const USERS_FILE = path.join(__dirname, 'users.json');
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
@@ -184,8 +184,12 @@ app.post('/files/:fileId', (req, res) => {
 });
 
 
-app.listen(PORT, '26.162.110.67', () => {
-  console.log(`Сервер запущен на http://192.168.0.5:${PORT}`);
+
+
+app.listen(PORT, () => {
+  console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
+
+
 
 
