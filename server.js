@@ -6,7 +6,7 @@ const session = require('express-session');
 const fs = require('fs');
 const multer = require('multer');
 
-const app = express(); // Добавлено
+const app = express();
 const PORT = process.env.PORT || 3000;
 
 console.log(`Server is running on http://localhost:${PORT}`);
@@ -118,11 +118,11 @@ app.post('/login', async (req, res) => {
 });
 
 // Профиль
-app.get('/profile', (req, res) =&gt; {
+app.get('/profile', (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ message: 'Неавторизован' });
   }
-  res.json({ message: `Вы авторизованы как ${req.session.user}` }); // Исправлено: шаблонная строка в кавычках
+  res.json({ message: `Вы авторизованы как ${req.session.user}` });
 });
 
 // Выход
