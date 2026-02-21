@@ -8,7 +8,9 @@ const multer = require('multer');
 
 const PORT = process.env.PORT || 3000;
 
-console.log(`Server is running on http://localhost:${PORT}`);
+
+console.log(`Server is running on http://your-app-url:${PORT}`);
+
 
 
 const USERS_FILE = path.join(__dirname, 'users.json');
@@ -191,6 +193,7 @@ app.post('/files/:fileId', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
+
 
 
 
