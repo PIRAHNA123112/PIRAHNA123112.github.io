@@ -7,7 +7,7 @@ const fs = require('fs');
 const multer = require('multer');
 
 const PORT = process.env.PORT || 3000;
-console.log(Server is running on http://localhost:${PORT}); // Изменил порт с 443 на 3000, чтобы не было проблем с правами и SSL
+console.log(Server is running on http://localhost:${PORT});
 
 const USERS_FILE = path.join(__dirname, 'users.json');
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
@@ -189,6 +189,7 @@ app.post('/files/:fileId', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
+
 
 
 
