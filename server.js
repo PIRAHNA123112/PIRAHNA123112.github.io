@@ -7,7 +7,9 @@ const fs = require('fs');
 const multer = require('multer');
 
 const PORT = process.env.PORT || 3000;
-console.log(Server is running on http://localhost:${PORT});
+
+console.log(`Server is running on http://localhost:${PORT}`);
+
 
 const USERS_FILE = path.join(__dirname, 'users.json');
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
@@ -189,6 +191,7 @@ app.post('/files/:fileId', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
+
 
 
 
