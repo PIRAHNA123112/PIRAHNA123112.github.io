@@ -1,1 +1,22 @@
-npm install node-fetch
+{
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "description": "A simple Node.js server for hosting an HTML file",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": "24.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PIRAHNA123112/PIRAHNA123112.git"
+  },
+  "keywords": [],
+  "author": "PIRAHNAKUS",
+  "license": "ISC"
+}
