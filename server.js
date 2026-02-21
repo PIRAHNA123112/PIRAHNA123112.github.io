@@ -6,22 +6,19 @@ const session = require('express-session');
 const fs = require('fs');
 const multer = require('multer');
 
+const app = express(); // Добавлено
 const PORT = process.env.PORT || 3000;
 
-
-console.log(`Server is running on http://your-app-url:${PORT}`);
-
-
+console.log(`Server is running on http://localhost:${PORT}`);
 
 const USERS_FILE = path.join(__dirname, 'users.json');
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
 
-// Создаем папку uploads, если не существует
+// Создать папку uploads, если нет
 if (!fs.existsSync(UPLOAD_DIR)) {
   fs.mkdirSync(UPLOAD_DIR);
 }
 
-// Загрузка пользователей из файла
 function loadUsers() {
   try {
     const data = fs.readFileSync(USERS_FILE, 'utf8');
@@ -31,7 +28,6 @@ function loadUsers() {
   }
 }
 
-// Сохранение пользователей в файл
 function saveUsers(users) {
   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
 }
@@ -45,11 +41,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: 'секрет_сессии_для_подписи_уникальный_ключ_!@#',
+  secret: process.env.SESSION_SECRET || 'секрет_сессии_по_умолчанию',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60, // 1 час
+    maxAge: 1000 * 60 * 60,
     httpOnly: true,
   }
 }));
@@ -59,24 +55,21 @@ const storage = multer.diskStorage({
     cb(null, UPLOAD_DIR);
   },
   filename: (req, file, cb) => {
-    // Для сохранения расширения файла
     const ext = path.extname(file.originalname);
     cb(null, file.fieldname + '-' + Date.now() + ext);
   }
 });
 
 const upload = multer({ storage });
-
 let filesMetadata = {};
 
 function isStrongPassword(password) {
   return /^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/.test(password);
 }
 
-// Регистрция пользователя
+// Регистрация
 app.post('/register', async (req, res) => {
   const { username, password, botcode } = req.body;
-  // Исправлена проверка на заполнение полей
   if (!username || !password || !botcode) {
     return res.status(400).json({ message: 'Заполните все поля' });
   }
@@ -101,7 +94,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// Вход пользователя
+// Вход
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
   users = loadUsers();
@@ -124,14 +117,15 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.get('/profile', (req, res) => {
+// Профиль
+app.get('/profile', (req, res) =&gt; {
   if (!req.session.user) {
     return res.status(401).json({ message: 'Неавторизован' });
   }
-  // Исправлена строка с использованием шаблонной строки
-  res.json({ message: `Вы авторизованы как ${req.session.user}` });
+  res.json({ message: `Вы авторизованы как ${req.session.user}` }); // Исправлено: шаблонная строка в кавычках
 });
 
+// Выход
 app.post('/logout', (req, res) => {
   req.session.destroy(err => {
     if (err) {
@@ -142,14 +136,14 @@ app.post('/logout', (req, res) => {
   });
 });
 
+// Главная страница
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname,  'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Загрузка видео с проверкой сессии
+// Загрузка файлов с проверкой сессии
 app.post('/upload', upload.single('file'), (req, res) => {
   if (!req.session.user) {
-    // Если файл был загружен, но пользователь не авторизован - удаляем файл
     if (req.file) {
       fs.unlinkSync(req.file.path);
     }
@@ -166,7 +160,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
   res.json({ message: 'Файл успешно загружен', fileId: req.file.filename });
 });
 
-// Просмотр/загрузка видео по паролю
+// Просмотр/скачивание файла по паролю
 app.post('/files/:fileId', (req, res) => {
   const { fileId } = req.params;
   const { password } = req.body;
@@ -187,16 +181,7 @@ app.post('/files/:fileId', (req, res) => {
   res.download(filePath, filesMetadata[fileId].originalName);
 });
 
-
-
-
 app.listen(PORT, () => {
   console.log(`Сервер запущен на http://localhost:${PORT}`);
 });
-
-
-
-
-
-
 
